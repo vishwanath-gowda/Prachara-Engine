@@ -1,6 +1,7 @@
 <?php
   // Remember to copy files from the SDK's src/ directory to a
   // directory in your application on the server, such as php-sdk/
+  
   require_once('src/facebook.php');
 $site_url	= "http://localhost/prachara/welcome.html";
   $config = array(
@@ -25,6 +26,7 @@ $link="https://www.youtube.com/watch?v=rjnkvQQaZ1A" ;
 
   $facebook = new Facebook($config);
   $user_id = $facebook->getUser();
+  set_time_limit(1000);
 ?>
 <html>
   <head></head>
@@ -46,17 +48,21 @@ $link="https://www.youtube.com/watch?v=rjnkvQQaZ1A" ;
 			  foreach($groups as $group){
 			  if ($flag==0){
 				  foreach($group as $cur){
-				  echo $cur['name']."=".$cur['id']."<br />";
+				  //echo $cur['name']."=".$cur['id']."<br />";
 				  $idarray[$i++]=$cur['id'];
 				  //echo $idarray[$i++]."<br />";
 				  }
 				  $flag=1;
 				}
 				}	  
+				$k=0;
+				foreach ($idarray as $groupid){
+				if($k<20){
+				echo "<br /";
+				echo date('h:i:s');
 				
-				//print_r($idarray);
-				//$j=10;
-				$postl='/179948182015821/feed';
+				
+				$postl="/$groupid/feed";
 				$ret_obj = $facebook->api($postl, 'POST',
 											array(
 											  'link' => $link,
@@ -64,6 +70,10 @@ $link="https://www.youtube.com/watch?v=rjnkvQQaZ1A" ;
 										 ));
 										 
 				echo '<pre>Post ID: ' . $ret_obj['id'] . '</pre>';
+				//sleep(1);
+				$k++;
+				}
+				}
 
 				// Give the user a logout link 
 				echo '<br /><a href="' . $facebook->getLogoutUrl() . '">logout</a>';

@@ -4,8 +4,8 @@
   require_once('src/facebook.php');
 $site_url	= "http://localhost/prachara/welcome.html";
   $config = array(
-    'appId' => '551971371581789',
-    'secret' => '559747b5f5d992bf1f17576cde0fecde',
+    'appId' => '654907034584861',
+    'secret' => '2238773467441202bf14872739a8ad21',
     'allowSignedRequest' => false // optional but should be set to false for non-canvas apps
   );
 $flag=0;
@@ -20,8 +20,10 @@ A ghost in white dress found in the woods of virginia. Several psyched around th
 * Not for kids under 14
 * Not suggested to watch after 10PM";
 
-$i=0;
+
 $link="https://www.youtube.com/watch?v=rjnkvQQaZ1A" ;
+$i=0;
+$totalgroup=0;
 
   $facebook = new Facebook($config);
   $user_id = $facebook->getUser();
@@ -46,25 +48,25 @@ $link="https://www.youtube.com/watch?v=rjnkvQQaZ1A" ;
 			  foreach($groups as $group){
 			  if ($flag==0){
 				  foreach($group as $cur){
-				  echo $cur['name']."=".$cur['id']."<br />";
+				  //echo $cur['name']."=".$cur['id']."<br />";
 				  $idarray[$i++]=$cur['id'];
-				  //echo $idarray[$i++]."<br />";
+				  //echo $idarray[$i-1]."<br />";
 				  }
 				  $flag=1;
 				}
-				}	  
 				
-				//print_r($idarray);
-				//$j=10;
-				$postl='/179948182015821/feed';
-				$ret_obj = $facebook->api($postl, 'POST',
+				}
+				$i=0;
+				for ($j=0; $j<10; $j++){	
+				echo $id=$idarray[$i++];
+				$ret_obj = $facebook->api('/$id/feed', 'POST',
 											array(
 											  'link' => $link,
 											  'message' => $msg
 										 ));
 										 
 				echo '<pre>Post ID: ' . $ret_obj['id'] . '</pre>';
-
+}
 				// Give the user a logout link 
 				echo '<br /><a href="' . $facebook->getLogoutUrl() . '">logout</a>';
       } catch(FacebookApiException $e) {
